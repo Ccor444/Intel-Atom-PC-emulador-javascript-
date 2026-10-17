@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Intel Atom PC Emulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="desk">
+  <div class="case">
+    <canvas id="screen" width="640" height="400"></canvas>
+    <div class="leds">
+      <div class="led" id="led-pwr"></div>
+      <div class="led" id="led-hdd"></div>
+    </div>
+    <div id="vkb" class="vkb hidden"></div>
+  </div>
+  <aside class="panel">
+    <h2>Intel Atom PC</h2>
+    <div class="buttons">
+      <button id="btn-power" class="power">⏻ POWER</button>
+      <button id="btn-reset">↻ RESET</button>
+      <button id="btn-kbd">⌨ TECLADO</button>
+    </div>
+    <dl class="specs">
+      <dt>RAM</dt><dd id="s-ram">16 MB</dd>
+      <dt>HDD</dt><dd id="s-hdd">4 MB IDE</dd>
+      <dt>VGA</dt><dd>80×25 texto</dd>
+      <dt>BIOS</dt><dd id="s-bios">carregando…</dd>
+      <dt>Disco A:</dt><dd id="s-disk">carregando…</dd>
+      <dt>CD-ROM</dt><dd id="s-cd">nenhum</dd>
+      <dt>Ciclos</dt><dd id="s-cycles">0</dd>
+      <dt>kHz</dt><dd id="s-mips">0</dd>
+    </dl>
+    <label>Imagem de CD (.iso):
+      <input type="file" id="iso-input" accept=".iso">
+    </label>
+    <label>Trocar imagem de disco (opcional, depois clique em RESET):
+      <input type="file" id="disk-input" accept=".img,.bin">
+    </label>
+  </aside>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

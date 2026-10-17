@@ -1,0 +1,7 @@
+Coloque aqui as imagens de disco:
+
+  FD14BOOT.img   disquete de boot do FreeDOS 1.4 (1.474.560 bytes = 1,44 MB)  -> já incluído neste ZIP
+  FD14LIVE.iso   CD "Live" do FreeDOS 1.4 (~302 MB)                         -> NÃO incluído (copie para esta pasta)
+
+O main.js carrega os dois automaticamente ao abrir a página. Se faltar a ISO, o PC liga mesmo assim
+e você pode escolher o arquivo .iso pelo seletor "Imagem de CD" no painel.

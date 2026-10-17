@@ -1,0 +1,11 @@
+{
+  "name": "atom-pc-emulator",
+  "version": "1.0.0",
+  "description": "Emulador de PC x86 (modo real) em JavaScript puro: GLaBIOS, FreeDOS, CD-ROM ATAPI/ISO, XMS",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run-all.mjs",
+    "boot": "node tools/boot-real.mjs 12",
+    "dos": "node tools/dos-cmd.mjs --no-setup"
+  }
+}

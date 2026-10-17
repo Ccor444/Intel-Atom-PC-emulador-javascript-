@@ -1,0 +1,46 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(#1a1a1a,#050505);color:#ddd;
+     font-family:'Courier New',monospace;min-height:100vh;padding:20px}
+.desk{display:flex;gap:20px;justify-content:center;align-items:flex-start}
+.case{background:linear-gradient(145deg,#2a2a2a,#101010);
+      border:2px solid #333;border-radius:12px;padding:20px;
+      box-shadow:0 20px 60px rgba(0,0,0,.8),inset 0 1px 0 #444}
+canvas{display:block;background:#000;border:3px solid #111;
+       border-radius:4px;image-rendering:pixelated}
+.leds{display:flex;gap:12px;margin-top:12px;justify-content:center}
+.led{width:10px;height:10px;border-radius:50%;background:#300;transition:.2s}
+.led.on{background:#0f0;box-shadow:0 0 10px #0f0}
+.panel{background:#181818;border:2px solid #333;border-radius:12px;
+       padding:20px;min-width:260px}
+.panel h2{font-size:16px;letter-spacing:2px;color:#0f0;margin-bottom:16px}
+.buttons{display:flex;gap:8px;margin-bottom:16px}
+button{flex:1;padding:10px;background:#333;color:#eee;border:1px solid #555;
+       border-radius:4px;cursor:pointer;font-family:inherit;font-size:12px;
+       letter-spacing:1px}
+button:hover{background:#444}
+button.power{background:#8B0000;border-color:#b00}
+button.power:hover{background:#a00000}
+.specs{display:grid;grid-template-columns:80px 1fr;gap:4px 12px;
+       font-size:12px;color:#888}
+.specs dt{color:#666}
+.specs dd{color:#0c0}
+label{display:block;margin-top:16px;font-size:12px;color:#666}
+input[type=file]{width:100%;margin-top:6px;font-size:11px}
+/* ---- teclado virtual ---- */
+.vkb{margin-top:14px;padding:8px;background:#0c0c0c;border:2px solid #2a2a2a;border-radius:8px;
+     width:100%;max-width:640px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.vkb.hidden{display:none}
+.vkb-row{display:flex;gap:4px;margin-bottom:4px}
+.vkb-key{flex:1 1 0;min-width:0;height:38px;padding:0 2px;font-size:11px;letter-spacing:0;
+         background:linear-gradient(#3a3a3a,#262626);color:#ddd;border:1px solid #111;border-bottom-width:3px;
+         border-radius:4px;touch-action:none;overflow:hidden;white-space:nowrap}
+.vkb-key:hover{background:linear-gradient(#444,#2e2e2e)}
+.vkb-key:active,.vkb-key.on{background:linear-gradient(#0a0,#060);color:#fff;border-color:#0c0}
+.vkb-key.mod{color:#9f9}
+.vkb-key.wide{font-size:10px}
+button.active{background:#0a4a0a;border-color:#0c0;color:#cfc}
+@media (max-width:820px){
+  .desk{flex-direction:column;align-items:center}
+  .panel{width:100%;max-width:640px}
+  .vkb-key{height:44px;font-size:12px}
+}

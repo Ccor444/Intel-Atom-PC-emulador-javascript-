@@ -1,0 +1,20 @@
+// node snap.mjs [segundos] [--iso] [--keys=ENTER,ENTER] — fotos da tela a cada mudança (+ teclas opcionais)
+import fs from 'node:fs';
+import { Motherboard } from '../src/motherboard.js';
+import { loadCdFromFile } from '../src/cdrom.js';
+globalThis.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+const secs = Number(process.argv[2]) || 25;
+const mb = new Motherboard({ getContext: () => new Proxy({}, { get: () => () => {}, set: () => true }) }, { ramMB: 16, hddMB: 4 });
+mb.setBIOSBinary(new Uint8Array(fs.readFileSync('roms/GLABIOS_0.4.2_8P.ROM')));
+mb.loadDiskImage(0, new Uint8Array(fs.readFileSync('disks/FD14BOOT.img')));
+if (process.argv.includes('--iso')) mb.loadCdImage(await loadCdFromFile(await fs.openAsBlob('disks/FD14LIVE.iso')));
+const keysArg = (process.argv.find((a) => a.startsWith('--keys=')) || '').slice(7).split(',').filter(Boolean);
+const CP = (c) => c >= 32 && c < 127 ? String.fromCharCode(c) : c === 0 ? ' ' : (c >= 0xB0 && c <= 0xDF) ? '#' : '·';
+const shot = () => { let o = []; for (let y = 0; y < 25; y++) { let s = ''; for (let x = 0; x < 80; x++) s += CP(mb.mem.read8(0xB8000 + (y * 80 + x) * 2)); o.push(s.trimEnd()); } while (o.length && !o[o.length - 1]) o.pop(); return o.join('\n'); };
+const L = console.log; const logs = []; console.log = () => {}; console.warn = (...a) => logs.push(a.join(' ')); console.error = (...a) => logs.push('ERR ' + a.join(' '));
+mb.powerOn(); let last = '', t0 = performance.now(), n = 0, ki = 0;
+const iv = setInterval(() => { const s = shot(); if (s !== last) { last = s; n++; L(`\n=== ${((performance.now() - t0) / 1000).toFixed(1)} s | IP ${mb.loopStatus().ip} | halted=${mb.cpu.halted} ===\n${s}`); } }, 500);
+const kv = setInterval(() => { if (ki < keysArg.length && performance.now() - t0 > 12000 + ki * 3000) { const k = keysArg[ki++]; L(`>>> tecla ${k}`); mb.kbd.keyDown(k === 'ENTER' ? 'Enter' : k === 'SPACE' ? 'Space' : k); setTimeout(() => mb.kbd.keyUp(k === 'ENTER' ? 'Enter' : k === 'SPACE' ? 'Space' : k), 120); } }, 200);
+await new Promise((r) => setTimeout(r, secs * 1000)); clearInterval(iv); clearInterval(kv); mb.powerOff(); console.log = L;
+const bad = logs.filter((l) => !l.startsWith('[BIOS]') && !l.startsWith('[MB]') && !l.startsWith('[INT13] últimas') ); if (bad.length) console.log('\navisos:', bad.slice(0, 6).join(' | '));
+console.log(`\nCPU erros=${mb._loopErrors} IP=${mb.loopStatus().ip} halted=${mb.cpu.halted}`);
